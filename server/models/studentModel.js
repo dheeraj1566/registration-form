@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { generatePassword } from "../services/passwordGenerator.js";
 
 const studentSchema = new Schema(
   {
@@ -16,7 +17,6 @@ const studentSchema = new Schema(
     fname: String,
     fphone: String,
     friendName: String,
-    gender: String,
     laddress: String,
     paddress: String,
     otherCourse: String,
@@ -24,8 +24,23 @@ const studentSchema = new Schema(
     qualificationYear: String,
     referral: String,
     role: String,
+    password: String,
+    newPassword: String,
+    firstTimesignin: { type: Boolean, default: true },
+    fees: String,
+    startDate: String,
+    remarks: String,
   },
   { timestamps: true }
 );
+
+
+studentSchema.pre("save", function (next) {
+  if (!this.password) {
+    this.password = generatePassword();
+  }
+  next();
+});
+
 const studentModel = model("student", studentSchema);
 export default studentModel;

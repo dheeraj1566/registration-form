@@ -1,3 +1,6 @@
 import axios from "axios";
-const instance = axios.create({ baseURL: "https://registration-form-17dw.onrender.com/api" });
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_BACKEND_PATH + "/api",
+  withCredentials: true, 
+});
 export default instance;

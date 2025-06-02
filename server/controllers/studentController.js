@@ -1,13 +1,9 @@
-import express from "express";
-import mongoose from "mongoose";
 import studentModel from "../models/studentModel.js";
 import { cloudinaryUpload } from "../middlewares/cloudinaryUpload.js";
 import { sendAckEmail, sendDataByEmail } from "../services/acknowledgement.js";
+import mongoose from "mongoose";
 
 export async function register(req, res) {
-  // console.log(req.body);
-  // console.log(req.files);
-
   try {
     let aadharFront,
       aadharBack = undefined;
@@ -32,9 +28,6 @@ export async function register(req, res) {
       referral,
       friendName,
     } = req.body;
-
-    // const aadharFront = req.files.aadharFront.path;
-    // const aadharBack = req.files.aadharBack.path;
 
     const cloudinaryObject = await cloudinaryUpload([
       req.files.aadharFront[0],
@@ -68,17 +61,78 @@ export async function register(req, res) {
       aadharFront,
       aadharBack,
     });
-    await newRegistration.save();
 
+    await newRegistration.save();
     sendAckEmail(newRegistration);
     sendDataByEmail(newRegistration);
 
     return res.status(201).send({ message: "Registration Successful" });
   } catch (error) {
-    return res
-      .status(500)
-      .send({ message: "Error registering student ", error: error.message });
+    console.error("MongoDB Save Error: ", error);
+    return (
+      res
+        .status(500)
+        // console.error(error);
+        .send({ message: "Error registering student ", error: error.message })
+    );
   }
 }
 
-export async function fetchStudent(req, res) {}
+
+export async function fetchStudent(req, res) {
+  try {
+    const students = await studentModel
+      .find()
+      .select('-email_check -password -salt') 
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json(students);
+  } catch (error) {
+    console.error("Error fetching students: ", error);
+    return res.status(500).json({
+      message: "Failed to fetch student data",
+      error: error.message,
+    });
+  }
+}
+
+export async function fetchStudentById(req, res) {
+  try {
+    const { id } = req.params;
+
+    const student = await studentModel.findById(id);
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found." });
+    }
+
+    res.status(200).json(student);
+  } catch (error) {
+    console.error("Error fetching student by ID:", error);
+    res.status(500).json({ message: "Server error while fetching student." });
+  }
+}
+
+export async function updateStudentDetails(req, res) {
+  try {
+    const { id } = req.params;
+    const { fees, startDate, remarks } = req.body;
+
+    const updatedStudent = await studentModel.findByIdAndUpdate(
+      id,
+      { fees, startDate, remarks },
+      { new: true }
+    );
+
+    if (!updatedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    res.status(200).json({ message: "Student updated", student: updatedStudent });
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ message: "Update failed", error: error.message });
+  }
+}
+
+

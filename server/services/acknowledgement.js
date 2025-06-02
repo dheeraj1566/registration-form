@@ -1,13 +1,17 @@
 import sgMail from "@sendgrid/mail";
+//rohit@fullstacklearning.com
 
 export function sendAckEmail(newData) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const msg = {
-    to: newData.email, // Change to your recipient
-    from: "rohit@fullstacklearning.com", // Change to your verified sender
+    to: newData.email,
+    // from: "rohit@fullstacklearning.com",
+    from:"dheerajjangid013@gmail.com",
     subject: "Thank you for registering at Full Stack Learning",
     text: "Your registration is successful.",
-    html: "<strong>Your registration is successful.</strong>",
+    html: `<strong>Your registration is successful.</strong>
+          <p>Your OneTime password is: <strong>${newData.password}</strong></p>
+         `,
   };
   sgMail
     .send(msg)

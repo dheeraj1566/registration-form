@@ -2,7 +2,7 @@
   font-family: Poppins, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 /* HEADER */
-.upper-header {
+/* .upper-header {
   width: 100%;
   padding: 0 10px;
   background: rgb(242, 113, 68);
@@ -12,16 +12,16 @@
     rgba(38, 145, 191, 1) 63%
   );
   font-size: 14px;
-}
-.gradient {
+} */
+/* .gradient {
   display: flex;
   align-items: center;
   justify-content: right;
-}
-.gradient p {
+} */
+/* .gradient p {
   text-align: right;
   padding-right: 30px;
-}
+} */
 .gradient p a {
   color: white;
 }
@@ -92,10 +92,7 @@ a.btn.btn-warning {
 input[type="radio"],
 input[type="checkbox"] {
   position: absolute !important;
-  /* opacity: 5;  */
   cursor: pointer;
-  /* height: 12; */
-  /* width: 12; */
 }
 .checkmark {
   position: absolute;
@@ -249,6 +246,7 @@ input[type="radio"] ~ .checkmark {
   border-radius: 50%;
 }
 
+
 .checkmark {
   position: absolute;
   top: 0;
@@ -277,7 +275,6 @@ input[type="radio"] ~ .checkmark {
   line-height: 1.5;
   color: #495057;
   vertical-align: middle;
-  /* background: #fff url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e) no-repeat right .75rem center / 8px 10px; */
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   -webkit-appearance: none;
@@ -337,7 +334,7 @@ nav ul li a:hover {
 }
 #loading {
   position: fixed;
-  z-index: 2;
+  z-index: 1031;
   top: 0;
   left: 0;
   width: 100%;
@@ -366,6 +363,24 @@ nav ul li a:hover {
   display: block;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media all and (min-width: 768px) {
   ::placeholder {
     font-size: 1rem;
@@ -388,4 +403,4 @@ nav ul li a:hover {
   .form-check-inline {
     display: block;
   }
-}
+} 
